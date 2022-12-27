@@ -1,0 +1,68 @@
+session_start();
+              include_once ('../db/koneksi.php');
+
+              if (isset($_POST['masuk'])) {
+                $namauser = $_POST['inpuser'];
+                $passuser = $_POST['inppass'];
+
+                $sql   = "SELECT * FROM masuk WHERE username = '$namauser' AND password = '$passuser'";
+                $query = $mysqli->query($sql);
+                $data  = $query->fetch_array(MYSQLI_ASSOC);
+
+                $_SESSION['inpuser']  = $namauser;
+                $_SESSION['password'] = $passuser;
+
+                if ($data['username'] == $namauser && $data['password'] == $passuser) {
+
+                  header("location: ../admin/admin.php");
+
+                } else {
+
+                  echo '
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  Silahkan <strong>Periksa</strong> Username atau Password <br> Anda Kembali !
+                  </div>
+                  ';
+
+                }
+
+              }
+
+
+
+              <?php
+
+// Koneksi
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbnm = "si_sc_mylovashop";
+
+$mysqli = new mysqli($host, $user, $pass, $dbnm);
+if ($mysqli->connect_errno) {
+
+  echo "Gagal Konek !". $mysqli->connect_errno;
+
+} else {
+
+  // echo "Berhasil Konek !";
+
+}
+
+ ?>
+
+
+<tr>
+        <td>' . $row['kd_barang'] . '</td>
+        <td>' . $row['nama'] . '</td>
+        <td>' . $row['jumlah'] . '</td>
+        <td align="center>' . $row['salary'] . '</td>
+        <td>' . "Rp. ". number_format($row['harga'], 0, ",", ".") . '</td>
+        <td>' . $row['satuan'] . '</td>
+        <td>' . $row['kondisi'] . '</td>
+        <td>' . $row['stock_awal'] . '</td>
+        <td>' . $row['stock_terjual'] . '</td>
+      </tr>
